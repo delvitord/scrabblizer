@@ -195,6 +195,7 @@ int main(){
 	assign1_Board();
 	p1.totalTurn = 1;
 	p2.totalTurn = 1;
+	
 	int menu;
 	do{
 		printf("Main Menu\n");
@@ -211,10 +212,12 @@ int main(){
 					chooseLevel();	
 					entryName();
 					startGame();
-					if (p1.skor > p2.skor){
-						printf("%s memenangkan pertandingan dengan skor %d", p1.name, p1.skor);
+					if (p1.skor == p2.skor) {
+						("permainan seri\n");
+					} else if (p1.skor > p2.skor){
+						printf("%s memenangkan pertandingan dengan skor %d\n", p1.name, p1.skor);
 					} else {
-						printf("%s memenangkan pertandingan dengan skor %d", p2.name, p2.skor);
+						printf("%s memenangkan pertandingan dengan skor %d\n", p2.name, p2.skor);
 					}
 					
 			break;
@@ -347,16 +350,18 @@ void entryName(){
 void startGame(){
 	p1.skor = 0;
 	p2.skor = 0;
+	p1.turn_noPoint = 0;
+	p2.turn_noPoint = 0;
 	
 	do {
 		p1.isTurn = true;
 		p2.isTurn = false;
 		turnP1();
-		p1.totalTurn++; 
+		
 		p1.isTurn = false;
 		p2.isTurn = true;
 		turnP2();
-		p2.totalTurn++;
+
 	} while (isEndGame() == false);
 	
 }
@@ -430,15 +435,15 @@ void randomizeRackP1(){
 					b = rand()%5 + 1; //mengacak angka untuk dapatkan huruf
 					
 					switch (b){ 
-						case 1: if (p1.A.totalLetter-- > 0) {rackP1[i] = p1.A.letter; isi = true; p1.A.totalLetter--;} 
+						case 1: if (p1.A.totalLetter-- > 0) {rackP1[i] = p1.A.letter; isi = true;} 
 						break;
-						case 2: if (p1.E.totalLetter-- > 0) {rackP1[i] = p1.E.letter; isi = true; p1.E.totalLetter--;} 
+						case 2: if (p1.E.totalLetter-- > 0) {rackP1[i] = p1.E.letter; isi = true;} 
 						break;
-						case 3: if (p1.I.totalLetter-- > 0) {rackP1[i] = p1.I.letter; isi = true; p1.I.totalLetter--;}  
+						case 3: if (p1.I.totalLetter-- > 0) {rackP1[i] = p1.I.letter; isi = true;}  
 						break;
-						case 4: if (p1.O.totalLetter-- > 0) {rackP1[i] = p1.O.letter; isi = true; p1.O.totalLetter--;}
+						case 4: if (p1.O.totalLetter-- > 0) {rackP1[i] = p1.O.letter; isi = true;}
 						break;
-						case 5: if (p1.U.totalLetter-- > 0) {rackP1[i] = p1.U.letter; isi = true; p1.U.totalLetter--;} 
+						case 5: if (p1.U.totalLetter-- > 0) {rackP1[i] = p1.U.letter; isi = true;} 
 						break;
 					} 
 				}	while (isi == false);
@@ -451,47 +456,47 @@ void randomizeRackP1(){
 				do{
 					b = rand()%21 + 1; //mengacak angka untuk dapatkan huruf
 					switch (b){ 
-						case 1: if (p1.B.totalLetter-- > 0) {rackP1[i] = p1.B.letter; isi = true; p1.B.totalLetter--;} 
+						case 1: if (p1.B.totalLetter-- > 0) {rackP1[i] = p1.B.letter; isi = true;;} 
 						break; 
-						case 2: if (p1.C.totalLetter-- > 0) {rackP1[i] = p1.C.letter; isi = true; p1.C.totalLetter--;}  
+						case 2: if (p1.C.totalLetter-- > 0) {rackP1[i] = p1.C.letter; isi = true;}  
 						break;
-						case 3: if (p1.D.totalLetter-- > 0) {rackP1[i] = p1.D.letter; isi = true; p1.D.totalLetter--;} 
+						case 3: if (p1.D.totalLetter-- > 0) {rackP1[i] = p1.D.letter; isi = true;} 
 						break;
-						case 4: if (p1.F.totalLetter-- > 0) {rackP1[i] = p1.F.letter; isi = true; p1.F.totalLetter--;} 
+						case 4: if (p1.F.totalLetter-- > 0) {rackP1[i] = p1.F.letter; isi = true;} 
 						break;
-						case 5: if (p1.G.totalLetter-- > 0) {rackP1[i] = p1.G.letter; isi = true; p1.G.totalLetter--;} 
+						case 5: if (p1.G.totalLetter-- > 0) {rackP1[i] = p1.G.letter; isi = true;} 
 						break;
-						case 6: if (p1.H.totalLetter-- > 0) {rackP1[i] = p1.H.letter; isi = true; p1.H.totalLetter--;} 
+						case 6: if (p1.H.totalLetter-- > 0) {rackP1[i] = p1.H.letter; isi = true;} 
 						break;
-						case 7: if (p1.J.totalLetter-- > 0) {rackP1[i] = p1.J.letter; isi = true; p1.J.totalLetter--;} 
+						case 7: if (p1.J.totalLetter-- > 0) {rackP1[i] = p1.J.letter; isi = true;} 
 						break;
-						case 8: if (p1.K.totalLetter-- > 0) {rackP1[i] = p1.K.letter; isi = true; p1.K.totalLetter--;} 
+						case 8: if (p1.K.totalLetter-- > 0) {rackP1[i] = p1.K.letter; isi = true;} 
 						break;
-						case 9: if (p1.L.totalLetter-- > 0) {rackP1[i] = p1.L.letter; isi = true; p1.L.totalLetter--;} 
+						case 9: if (p1.L.totalLetter-- > 0) {rackP1[i] = p1.L.letter; isi = true;} 
 						break;
-						case 10: if (p1.M.totalLetter-- > 0) {rackP1[i] = p1.M.letter; isi = true; p1.M.totalLetter--;} 
+						case 10: if (p1.M.totalLetter-- > 0) {rackP1[i] = p1.M.letter; isi = true;} 
 						break;
-						case 11: if (p1.N.totalLetter-- > 0) {rackP1[i] = p1.N.letter; isi = true; p1.N.totalLetter--;} 
+						case 11: if (p1.N.totalLetter-- > 0) {rackP1[i] = p1.N.letter; isi = true;} 
 						break;
-						case 12: if (p1.P.totalLetter-- > 0) {rackP1[i] = p1.P.letter; isi = true; p1.P.totalLetter--;} 
+						case 12: if (p1.P.totalLetter-- > 0) {rackP1[i] = p1.P.letter; isi = true;} 
 						break;
-						case 13: if (p1.Q.totalLetter-- > 0) {rackP1[i] = p1.Q.letter; isi = true; p1.Q.totalLetter--;}  
+						case 13: if (p1.Q.totalLetter-- > 0) {rackP1[i] = p1.Q.letter; isi = true;}  
 						break;
-						case 14: if (p1.R.totalLetter-- > 0) {rackP1[i] = p1.R.letter; isi = true; p1.R.totalLetter--;} 
+						case 14: if (p1.R.totalLetter-- > 0) {rackP1[i] = p1.R.letter; isi = true;} 
 						break;
-						case 15: if (p1.S.totalLetter-- > 0) {rackP1[i] = p1.S.letter; isi = true; p1.S.totalLetter--;} 
+						case 15: if (p1.S.totalLetter-- > 0) {rackP1[i] = p1.S.letter; isi = true;} 
 						break;
-						case 16: if (p1.T.totalLetter-- > 0) {rackP1[i] = p1.T.letter; isi = true; p1.T.totalLetter--;} 
+						case 16: if (p1.T.totalLetter-- > 0) {rackP1[i] = p1.T.letter; isi = true;} 
 						break;
-						case 17: if (p1.V.totalLetter-- > 0) {rackP1[i] = p1.V.letter; isi = true; p1.V.totalLetter--;} 
+						case 17: if (p1.V.totalLetter-- > 0) {rackP1[i] = p1.V.letter; isi = true;} 
 						break;
-						case 18: if (p1.W.totalLetter-- > 0) {rackP1[i] = p1.W.letter; isi = true; p1.W.totalLetter--;} 
+						case 18: if (p1.W.totalLetter-- > 0) {rackP1[i] = p1.W.letter; isi = true;} 
 						break;
-						case 19: if (p1.X.totalLetter-- > 0) {rackP1[i] = p1.X.letter; isi = true; p1.X.totalLetter--;} 
+						case 19: if (p1.X.totalLetter-- > 0) {rackP1[i] = p1.X.letter; isi = true;} 
 						break;
-						case 20: if (p1.Y.totalLetter-- > 0) {rackP1[i] = p1.Y.letter; isi = true; p1.Y.totalLetter--;} 
+						case 20: if (p1.Y.totalLetter-- > 0) {rackP1[i] = p1.Y.letter; isi = true;} 
 						break;
-						case 21: if (p1.Z.totalLetter-- > 0) {rackP1[i] = p1.Z.letter; isi = true; p1.Z.totalLetter--;} 
+						case 21: if (p1.Z.totalLetter-- > 0) {rackP1[i] = p1.Z.letter; isi = true;} 
 						break; 
 					}
 					
@@ -516,15 +521,15 @@ void randomizeRackP2(){
 					m = rand()%5 + 1; //mengacak angka untuk dapatkan huruf
 					
 					switch (m){ 
-						case 1: if (p2.A.totalLetter-- > 0) {rackP2[i] = p2.A.letter; isi = true; p2.A.totalLetter--;} 
+						case 1: if (p2.A.totalLetter-- > 0) {rackP2[i] = p2.A.letter; isi = true;} 
 						break;
-						case 2: if (p2.E.totalLetter-- > 0) {rackP2[i] = p2.E.letter; isi = true; p2.E.totalLetter--;} 
+						case 2: if (p2.E.totalLetter-- > 0) {rackP2[i] = p2.E.letter; isi = true;} 
 						break;
-						case 3: if (p2.I.totalLetter-- > 0) {rackP2[i] = p2.I.letter; isi = true; p2.I.totalLetter--;} 
+						case 3: if (p2.I.totalLetter-- > 0) {rackP2[i] = p2.I.letter; isi = true;} 
 						break;
-						case 4: if (p2.O.totalLetter-- > 0) {rackP2[i] = p2.O.letter; isi = true; p2.O.totalLetter--;}
+						case 4: if (p2.O.totalLetter-- > 0) {rackP2[i] = p2.O.letter; isi = true;}
 						break;
-						case 5: if (p2.U.totalLetter-- > 0) {rackP2[i] = p2.U.letter; isi = true; p2.U.totalLetter--;} 
+						case 5: if (p2.U.totalLetter-- > 0) {rackP2[i] = p2.U.letter; isi = true;} 
 						break;
 					} 
 				}	while (isi == false);
@@ -536,47 +541,47 @@ void randomizeRackP2(){
 				do{
 					m = rand()%21 + 1; //mengacak angka untuk dapatkan huruf
 					switch (m){ 
-						case 1: if (p2.B.totalLetter-- > 0) {rackP2[i] = p2.B.letter; isi = true; p2.B.totalLetter--;} 
+						case 1: if (p2.B.totalLetter-- > 0) {rackP2[i] = p2.B.letter; isi = true;} 
 						break; 
-						case 2: if (p2.C.totalLetter-- > 0) {rackP2[i] = p2.C.letter; isi = true; p2.C.totalLetter--;}  
+						case 2: if (p2.C.totalLetter-- > 0) {rackP2[i] = p2.C.letter; isi = true;}  
 						break;
-						case 3: if (p2.D.totalLetter-- > 0) {rackP2[i] = p2.D.letter; isi = true; p2.D.totalLetter--;} 
+						case 3: if (p2.D.totalLetter-- > 0) {rackP2[i] = p2.D.letter; isi = true;} 
 						break;
-						case 4: if (p2.F.totalLetter-- > 0) {rackP2[i] = p2.F.letter; isi = true; p2.F.totalLetter--;} 
+						case 4: if (p2.F.totalLetter-- > 0) {rackP2[i] = p2.F.letter; isi = true;} 
 						break;
-						case 5: if (p2.G.totalLetter-- > 0) {rackP2[i] = p2.G.letter; isi = true; p2.G.totalLetter--;} 
+						case 5: if (p2.G.totalLetter-- > 0) {rackP2[i] = p2.G.letter; isi = true;} 
 						break;
-						case 6: if (p2.H.totalLetter-- > 0) {rackP2[i] = p2.H.letter; isi = true; p2.H.totalLetter--;} 
+						case 6: if (p2.H.totalLetter-- > 0) {rackP2[i] = p2.H.letter; isi = true;} 
 						break;
-						case 7: if (p2.J.totalLetter-- > 0) {rackP2[i] = p2.J.letter; isi = true; p2.J.totalLetter--;} 
+						case 7: if (p2.J.totalLetter-- > 0) {rackP2[i] = p2.J.letter; isi = true;} 
 						break;
-						case 8: if (p2.K.totalLetter-- > 0) {rackP2[i] = p2.K.letter; isi = true; p2.K.totalLetter--;} 
+						case 8: if (p2.K.totalLetter-- > 0) {rackP2[i] = p2.K.letter; isi = true;} 
 						break;
-						case 9: if (p2.L.totalLetter-- > 0) {rackP2[i] = p2.L.letter; isi = true; p2.L.totalLetter--;} 
+						case 9: if (p2.L.totalLetter-- > 0) {rackP2[i] = p2.L.letter; isi = true;} 
 						break;
-						case 10: if (p2.M.totalLetter-- > 0) {rackP2[i] = p2.M.letter; isi = true; p2.M.totalLetter--;} 
+						case 10: if (p2.M.totalLetter-- > 0) {rackP2[i] = p2.M.letter; isi = true;} 
 						break;
-						case 11: if (p2.N.totalLetter-- > 0) {rackP2[i] = p2.N.letter; isi = true; p2.N.totalLetter--;} 
+						case 11: if (p2.N.totalLetter-- > 0) {rackP2[i] = p2.N.letter; isi = true;} 
 						break;
-						case 12: if (p2.P.totalLetter-- > 0) {rackP2[i] = p2.P.letter; isi = true; p2.P.totalLetter--;} 
+						case 12: if (p2.P.totalLetter-- > 0) {rackP2[i] = p2.P.letter; isi = true;} 
 						break;
-						case 13: if (p2.Q.totalLetter-- > 0) {rackP2[i] = p2.Q.letter; isi = true; p2.Q.totalLetter--;}  
+						case 13: if (p2.Q.totalLetter-- > 0) {rackP2[i] = p2.Q.letter; isi = true;}  
 						break;
-						case 14: if (p2.R.totalLetter-- > 0) {rackP2[i] = p2.R.letter; isi = true; p2.R.totalLetter--;} 
+						case 14: if (p2.R.totalLetter-- > 0) {rackP2[i] = p2.R.letter; isi = true;} 
 						break;
-						case 15: if (p2.S.totalLetter-- > 0) {rackP2[i] = p2.S.letter; isi = true; p2.S.totalLetter--;} 
+						case 15: if (p2.S.totalLetter-- > 0) {rackP2[i] = p2.S.letter; isi = true;} 
 						break;
-						case 16: if (p2.T.totalLetter-- > 0) {rackP2[i] = p2.T.letter; isi = true; p2.T.totalLetter--;} 
+						case 16: if (p2.T.totalLetter-- > 0) {rackP2[i] = p2.T.letter; isi = true;} 
 						break;
-						case 17: if (p2.V.totalLetter-- > 0) {rackP2[i] = p2.V.letter; isi = true; p2.V.totalLetter--;} 
+						case 17: if (p2.V.totalLetter-- > 0) {rackP2[i] = p2.V.letter; isi = true;} 
 						break;
-						case 18: if (p2.W.totalLetter-- > 0) {rackP2[i] = p2.W.letter; isi = true; p2.W.totalLetter--;} 
+						case 18: if (p2.W.totalLetter-- > 0) {rackP2[i] = p2.W.letter; isi = true;} 
 						break;
-						case 19: if (p2.X.totalLetter-- > 0) {rackP2[i] = p2.X.letter; isi = true; p2.X.totalLetter--;} 
+						case 19: if (p2.X.totalLetter-- > 0) {rackP2[i] = p2.X.letter; isi = true;} 
 						break;
-						case 20: if (p2.Y.totalLetter-- > 0) {rackP2[i] = p2.Y.letter; isi = true; p2.Y.totalLetter--;} 
+						case 20: if (p2.Y.totalLetter-- > 0) {rackP2[i] = p2.Y.letter; isi = true;} 
 						break;
-						case 21: if (p2.Z.totalLetter-- > 0) {rackP2[i] = p2.Z.letter; isi = true; p2.Z.totalLetter--;} 
+						case 21: if (p2.Z.totalLetter-- > 0) {rackP2[i] = p2.Z.letter; isi = true;} 
 						break; 
 					}
 					
@@ -614,7 +619,7 @@ bool isLetterAvailableP2(){
 
 int isEndGame(){
 	bool endGame = false;
-	if (!isLetterAvailableP1() && !isLetterAvailableP2()){
+	if ((!isLetterAvailableP1() && !isLetterAvailableP2()) || (p1.turn_noPoint == 6 || p2.turn_noPoint == 6)){
 		endGame = true;
 	}
 	
@@ -654,8 +659,8 @@ void entryLetter(){
 	int x = 0;				//sebagai pengganti baris
 	int y = 0;				//sebagai pengganti kolom
 	bool segaris;  	//mengetahui apakah input ke 2 - 7 segaris dengan input pertama
-	bool segaris_kolom, segaris_baris, check_valid;
-	char stillEntry;
+	bool check_valid;
+	char stillEntry, lewati;
 	int counter = 0;
 	char cancel;		//untuk menarik balik semua huruf
 	
@@ -665,6 +670,17 @@ void entryLetter(){
 
 		assign1_array_temp(); 		//agar data pada turn sebelumnya tidak terbawa;
 		
+		printf("Apakah anda ingin lewati giliran ini (entri selain 'N' jika iya)? "); // mengetahui apakah akan lanjut entry huruf atau tidak
+		scanf(" %c", &lewati);
+		
+		if (lewati != 'N'){
+			if(p1.isTurn==true){
+				p1.turn_noPoint++;
+			} else{
+				p2.turn_noPoint++;
+			}
+			goto end;
+		} 
 		entryLetter_first();
 		
 		printf("Apakah anda ingin mengentry huruf lagi (entri selain 'N' jika iya)? "); // mengetahui apakah akan lanjut entry huruf atau tidak
@@ -684,7 +700,13 @@ void entryLetter(){
 		}
 		check_valid = check();
 	} while (check_valid == false);
+	if(p1.isTurn==true){
+		p1.turn_noPoint++;
+	} else{
+		p2.turn_noPoint++;
+	}
 	
+	end:	;
 
 
 	
@@ -1120,11 +1142,15 @@ bool toDictionary(temp array_check[]){
 
 	
 bool checkFormedWords(temp array_check[], int b){
-	int a = 0;		//iteration
+	int a = 0, m, n, o, p;		//iteration
 	bool isFormedWord = false;
+	m = array_check[0].baris;
+	n = array_check[0].kolom;
+	o = array_check[b-1].baris;
+	p = array_check[b-1].kolom;
 	
 	while (a < formedWords && isFormedWord == false){
-		if ((array_check[0].baris >= arrFormedWords[a][0].baris && array_check[0].kolom >= arrFormedWords[a][0].kolom) && (array_check[b].baris <= arrFormedWords[a][1].baris && array_check[b].kolom <= arrFormedWords[a][1].kolom)){
+		if ((m >= arrFormedWords[a][0].baris && n >= arrFormedWords[a][0].kolom) && (o <= arrFormedWords[a][1].baris && p <= arrFormedWords[a][1].kolom)){
 			isFormedWord = true;
 		}
 		a++;
@@ -1177,8 +1203,10 @@ void scoring(temp array_check[], int b){
 	
 	if (p1.isTurn == true){
 		p1.skor += scor_temp;
+		p1.turn_noPoint = 0;
 	} else {
 		p2.skor += scor_temp;
+		p2.turn_noPoint = 0;
 	}
 }
 
