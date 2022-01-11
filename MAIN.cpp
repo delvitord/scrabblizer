@@ -30,7 +30,7 @@ bool isLetterAvailableP2();
 void randomizeRackP1();
 void randomizeRackP2();
 int isEndGame();
-int turn();
+void turn();
 void entryLetter();
 int check();
 int checkIndex(); //check apakah index yang dientrykan tidak akan menimpa huruf yang sudah ada di board
@@ -644,11 +644,9 @@ int	turnP2(){
 	turn();
 }
 
-int turn(){
+void turn(){
 	entryLetter();
-	
 	printBoard();
-
 }
 
 void entryLetter(){
@@ -669,7 +667,7 @@ void entryLetter(){
 		
 		entryLetter_first();
 		
-		printf("Apakah anda ingin mengentry huruf lagi (Y/N)? "); // mengetahui apakah akan lanjut entry huruf atau tidak
+		printf("Apakah anda ingin mengentry huruf lagi (entri selain 'N' jika iya)? "); // mengetahui apakah akan lanjut entry huruf atau tidak
 		scanf(" %c", &stillEntry);
 		if (stillEntry != 'N') {
 			entryLetter_second();
@@ -677,9 +675,9 @@ void entryLetter(){
 		}
 		
 		if (stillEntry == 'N'){
-			printf("Apakah anda ingin menarik semua huruf (Y/N)? ");
+			printf("Apakah anda ingin menarik semua huruf (entri selain 'N' jika iya)? ");
 			scanf(" %c", &cancel);
-			if (cancel == 'Y'){
+			if (cancel != 'N'){
 				pullback();
 				goto first;
 			}
@@ -754,7 +752,7 @@ void entryLetter_continue(char *stillEntry){
 	int x, y;
 	if (segaris_kolom){
 		do{
-			printf("Apakah anda ingin mengentry huruf lagi (Y/N)? ");
+			printf("Apakah anda ingin mengentry huruf lagi (entri selain 'N' jika iya)? ");
 			scanf(" %c", &still);
 			if (still != 'N') {	
 				do {
@@ -773,7 +771,7 @@ void entryLetter_continue(char *stillEntry){
 		} while (still != 'N' && i < 7);
 	} else {
 		do{
-			printf("Apakah anda ingin mengentry huruf lagi (Y/N)? ");
+			printf("Apakah anda ingin mengentry huruf lagi (entri selain 'N' jika iya)? ");
 			scanf(" %c", &still);
 			if (still != 'N') {
 				do {
@@ -1038,8 +1036,8 @@ bool checkWord(){
 						totalWords++;
 						arrFormedWords[formedWords][0].baris = array_check[0].baris;
 						arrFormedWords[formedWords][0].kolom = array_check[0].kolom;
-						arrFormedWords[formedWords][1].baris = array_check[d].baris;
-						arrFormedWords[formedWords][1].kolom = array_check[d].kolom;
+						arrFormedWords[formedWords][1].baris = array_check[d-1].baris;
+						arrFormedWords[formedWords][1].kolom = array_check[d-1].kolom;
 						formedWords++;		
 						scoring(array_check , d);
 										
@@ -1077,8 +1075,8 @@ bool checkWord(){
 						totalWords++;
 						arrFormedWords[formedWords][0].baris = array_check[0].baris;
 						arrFormedWords[formedWords][0].kolom = array_check[0].kolom;
-						arrFormedWords[formedWords][1].baris = array_check[d].baris;
-						arrFormedWords[formedWords][1].kolom = array_check[d].kolom;
+						arrFormedWords[formedWords][1].baris = array_check[d-1].baris;
+						arrFormedWords[formedWords][1].kolom = array_check[d-1].kolom;
 						formedWords++;
 						scoring(array_check , d);
 					}
@@ -1126,7 +1124,7 @@ bool checkFormedWords(temp array_check[], int b){
 	bool isFormedWord = false;
 	
 	while (a < formedWords && isFormedWord == false){
-		if ((arrFormedWords[a][0].baris == array_check[0].baris && arrFormedWords[a][0].kolom == array_check[0].kolom) && (arrFormedWords[a][1].baris == array_check[b].baris && arrFormedWords[a][1].kolom == array_check[b].kolom)){
+		if ((array_check[0].baris >= arrFormedWords[a][0].baris && array_check[0].kolom >= arrFormedWords[a][0].kolom) && (array_check[b].baris <= arrFormedWords[a][1].baris && array_check[b].kolom <= arrFormedWords[a][1].kolom)){
 			isFormedWord = true;
 		}
 		a++;
@@ -1139,7 +1137,7 @@ void scoring(temp array_check[], int b){
 	int scor_temp=0, a, point;
 	char letter_temp;
 	
-	for(a = 0; a <= b; a++){
+	for(a = 0; a <= b-1; a++){
 		letter_temp = array_check[a].huruf;
 		switch(letter_temp){ 
 			 case 'A': point = p1.A.point; break;
@@ -1172,7 +1170,7 @@ void scoring(temp array_check[], int b){
 		bonusLetter(&point, array_check, a);
 		scor_temp += point;
 	}
-	for(a = 0; a <= b; a++){
+	for(a = 0; a <= b-1; a++){
 		bonusWord(&scor_temp, array_check, a);
 	}
 	
