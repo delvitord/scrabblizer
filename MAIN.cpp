@@ -12,15 +12,14 @@
 bool chooseMode();
 int chooseLevel();
 void startGame();
-int viewHelp();
-int viewAbout();
-int viewHighScore();
-int exit();
+void viewHelp();
+void viewAbout();
+void viewHighScore();
+void exit();
 void printBoard();
 void entryName();
-int	turnP1();
-int	turnP2();
-void highScore();
+void turnP1();
+void turnP2();
 void assign1_LetterBlock();
 void assign1_Rack();
 void assign1_Board();
@@ -29,7 +28,7 @@ bool isLetterAvailableP1();
 bool isLetterAvailableP2();
 void randomizeRackP1();
 void randomizeRackP2();
-int isEndGame();
+bool isEndGame();
 void turn();
 void entryLetter();
 int check();
@@ -39,7 +38,7 @@ void checkNoSpace(bool *line, bool *spaceIsWord); //check apakah yang dientrykan
 int checkRack(); //check apakah yang dientrykan ada di rack atau tidak
 int checkLine(); //check apakah yang dientrykan segaris atau tidak
 bool checkWord(); //check apakah yang dientrykan ada pada kamus atau tidak
-int entryLetter_first();
+void entryLetter_first();
 void entryLetter_second();
 void entryLetter_continue(char *stillEntry);
 void pullback();
@@ -158,8 +157,11 @@ void assign1_LetterBlock(){
 
 char rackP1[7], rackP2[7], board[15][15];
 
-//Inisialisasi awal rack
+
 void assign1_Rack(){
+//IS: isi Rack masih tidak beraturan
+//FS: Isi rack beraturan, terisi dengan '_'
+	
 	for (i = 0; i<7; i++){
 		rackP1[i]='_';
 	}
@@ -169,6 +171,9 @@ void assign1_Rack(){
 }
 //inisialisasi awal board
 void assign1_Board(){
+//IS: isi board masih tidak beraturan
+//FS: Isi board beraturan, terisi dengan '_'
+	
 	int x, y;
 	for (y = 0; y < 15; y++){
 		for (x = 0; x < 15; x++){
@@ -176,10 +181,6 @@ void assign1_Board(){
 		}
 	}
 }
-
-
-
-
 
 
 void gotoxy(int x, int y){
@@ -190,6 +191,7 @@ void gotoxy(int x, int y){
 }
 
 int main(){
+//Main Program
 	assign1_LetterBlock();
 	assign1_Rack();
 	assign1_Board();
@@ -237,14 +239,12 @@ int main(){
 			default: printf("angka yang anda masukkan salah\n");
 		}
 	} while (menu != 5);	
-
-	
-	highScore();
 	
 	return 0;
 }
 
 bool chooseMode(){
+//Mengembalikan keterangan mode permainan
 	int mode;
 	printf("Mode Permainan\n");
 	printf("1: Player Vs Player\n");
@@ -264,7 +264,8 @@ bool chooseMode(){
 	return p1.vsComp;
 	
 }
-int viewHelp(){
+void viewHelp(){
+//menampilkan Menu Help
 	char cukup;
 	printf("1. (PENTING) Sebelum memulai permainan, pastikan huruf pada keyboard \n   sudah dalam posisi capslock agar game dapat dimainkan. \n");
 	printf("2. Setelah menjalankan program, ketik 1 untuk memulai permainan, lalu tekan enter. \n");
@@ -280,7 +281,8 @@ int viewHelp(){
 	scanf(" %c", &cukup);
 	system("cls");
 }
-int viewAbout(){
+void viewAbout(){
+	//menampilkan menu about
 	char cukup;
 	printf("About: \n");
 	printf("Scrabblizer adalah permainan papan yang dibuat oleh kelompok 4 kelas 1B yang didasarkan pada\npermainan papan bernama Scrabble yang diciptakan pada 1938.\n");
@@ -294,7 +296,7 @@ int viewAbout(){
 	printf("\n");
 	printf("Dosen Pengampu:\n");
 	printf("Ani Rahmani, S.Si., M.T.\n");
-	printf("Lukmanul Hakim Firdaus, S.Kom, M.Kom.\n");
+	printf("Lukmanul Hakim Firdaus, S.Kom, M.T.\n");
 	printf("Asri Maspupah, S.ST., M.T.\n");
 	printf("\n");
 	printf("2022\n");
@@ -305,7 +307,7 @@ int viewAbout(){
 	scanf(" %c", &cukup);
 	system("cls");	
 }
-int viewHighScore(){
+void viewHighScore(){
 	char cukup;
 	printf("Fitur belum tersedia\n");
 	printf("cukup? (entry huruf apa saja) ");
@@ -313,10 +315,12 @@ int viewHighScore(){
 	system("cls");	
 }
 	
-int exit(){
+void exit(){
+	;
 }
 
 int chooseLevel(){
+	//mengembalikan keterangan level yg dipilih
 	int level;
 	printf("Level\n");
 	printf("1: Easy\n");
@@ -341,6 +345,9 @@ int chooseLevel(){
 }
 
 void entryName(){
+	//IS: Nama masing-masing pemain masih kosong
+	//FS: Nama masing-masing pemain sudah terisi
+	char lanjut;
 	system("cls");
 	gotoxy(30,10);
 	printf("Masukkan nama untuk player 1 (Maks 10 char):\n");
@@ -350,9 +357,18 @@ void entryName(){
 	printf("Masukkan nama untuk player 2 (Maks 10 char):\n");
 	gotoxy(30,13);
 	scanf(" %[^\n]", p2.name);
+	gotoxy(30,16);
+	printf("PERHATIAN: Harap menyalakan Capslock pada keyboard\n");
+	gotoxy(30,17);
+	printf("Anda dan perhatikanlah setiap format input yang diminta!\n");
+	gotoxy(30,18);
+	printf("Input huruf apa saja:\n");
+	gotoxy(30,19);
+	scanf(" %c", &lanjut);
 }
 
 void startGame(){
+	//tempat berulangnya permainan sampai endGame terpenuhi
 	p1.skor = 0;
 	p2.skor = 0;
 	p1.turn_noPoint = 0;
@@ -372,6 +388,8 @@ void startGame(){
 }
 
 void printBoard(){
+	//papan permainan
+	
 	system("cls");
 	gotoxy(23,0); printf("|____*Scrabblizer*____|\n");
 	printf("=======================================================================\n");
@@ -426,6 +444,9 @@ void printBoard(){
 }
 
 void randomizeRackP1(){
+//IS: Rack masih ada yang berisi '_'
+//FS: Rack sudah terisi oleh huruf-huruf yang dipilih acak
+	
 	int a;		//a adalah untuk random berapa banyak huruf vokal yang dimasukkan pada looping ini
 	int b;		//b dalah angka random untuk huruf rack p1
 	bool isi;	//untuk mengetahui apakah suatu index bisa berhasil terisi atau tidak
@@ -512,6 +533,9 @@ void randomizeRackP1(){
 }
 
 void randomizeRackP2(){
+//IS: Rack masih ada yang berisi '_'
+//FS: Rack sudah terisi oleh huruf-huruf yang dipilih acak
+
 	int a;		//a adalah untuk random berapa banyak huruf vokal yang dimasukkan pada looping ini
 	int m;		//m dalah angka random untuk huruf rack p2
 	bool isi = false;	//untuk mengetahui apakah suatu index bisa berhasil terisi atau tidak
@@ -598,6 +622,7 @@ void randomizeRackP2(){
 
 
 bool isLetterAvailableP1(){
+//mengembalikan banyaknya huruf yang masih dimiliki P1
 	int totalAllLettersP1;
 	bool availableP1;
 
@@ -610,6 +635,7 @@ bool isLetterAvailableP1(){
 }
 
 bool isLetterAvailableP2(){
+//mengembalikan banyaknya huruf yang masih dimiliki P2
 	int totalAllLettersP2;
 	bool availableP2;
 	
@@ -622,7 +648,8 @@ bool isLetterAvailableP2(){
 }
 
 
-int isEndGame(){
+bool isEndGame(){
+//mengembalikan nilai apakah game sudah masuk kondisi permainan berakhir
 	bool endGame = false;
 	if ((!isLetterAvailableP1() && !isLetterAvailableP2()) || (p1.turn_noPoint == 6 || p2.turn_noPoint == 6)){
 		endGame = true;
@@ -631,23 +658,16 @@ int isEndGame(){
 	return endGame;
 }
 
-int TimerGame(){
-	
-}
-
-
-
-void highScore(){
-}
-
-int	turnP1(){
+void turnP1(){
+//Modul untuk giliran P1
 	randomizeRackP1();
 	printBoard();
 	printf("giliran player 1\n");
 	turn();
 }
 
-int	turnP2(){
+void turnP2(){
+//Modul untuk giliran P1
 	randomizeRackP2();
 	printBoard();
 	printf("giliran player 2\n");
@@ -660,6 +680,9 @@ void turn(){
 }
 
 void entryLetter(){
+//IS: Pemain belum memainkan giliran
+//FS: Pemain sudah memainkan giliran, yaitu huruf-huruf sudah dimasukkan ke board dan pemain mendapat skor; atau pemain lewati giliran
+	
 	i = 0; 				//iterasi agar input maksimal 7
 	int x = 0;				//sebagai pengganti baris
 	int y = 0;				//sebagai pengganti kolom
@@ -695,14 +718,14 @@ void entryLetter(){
 			entryLetter_continue(&stillEntry);
 		}
 		
-		if (stillEntry == 'N'){
-			printf("Apakah anda ingin menarik semua huruf (entri 'Y' jika ingin tarik huruf)? ");
-			scanf(" %c", &cancel);
-			if (cancel == 'Y'){
-				pullback();
-				goto first;
-			}
+		
+		printf("Apakah anda ingin menarik semua huruf (entri 'Y' jika ingin tarik huruf)? ");
+		scanf(" %c", &cancel);
+		if (cancel == 'Y'){
+			pullback();
+			goto first;
 		}
+		
 		check_valid = check();
 	} while (check_valid == false);
 	
@@ -719,9 +742,10 @@ void entryLetter(){
 	
 }
 
-int entryLetter_first(){
+void entryLetter_first(){
+//entri huruf pertama pada masing-masing giliran	
+
 	i = 0;
-	//entry pertama
 	int x, y;
 	if (p1.totalTurn == 1){  //hanya untuk giliran paling pertama ketika game dimulai
 		do{
@@ -749,6 +773,7 @@ int entryLetter_first(){
 }
 
 void entryLetter_second(){
+//entri huruf kedua pada masing-masing giliran
 	bool segaris = false;
 	segaris_baris = false;
 	segaris_kolom = false;
@@ -775,7 +800,8 @@ void entryLetter_second(){
 }
 
 void entryLetter_continue(char *stillEntry){
-	//entry ke 3-7
+//entri huruf ketiga-keempat pada masing-masing giliran. Ketika modul ini dimulai, program sudah punya data apakah pemain mengentrikan segaris secara vertikal atau secara horizontal
+
 	char still;
 	int x, y;
 	if (segaris_kolom){
@@ -823,21 +849,26 @@ void entryLetter_continue(char *stillEntry){
 
 
 int check(){
+//mengembalikan keterangan apakah huruf-huruf yang dientry sudah memenuhi aturan game
+	
 	bool check = false, noSpace, isAround, isWord, spaceIsWord;
 	checkNoSpace(&noSpace, &spaceIsWord);
 	if (noSpace == false){
 		pullback();
 		printf("huruf-huruf yang Anda entry tidak bersambung!\n");
-	}
-	isAround = checkAround(spaceIsWord);
-	if (isAround == false){
-		pullback();
-		printf("huruf-huruf yang di-entry harus bersambung dengan huruf yang sudah ada di board!\n");
-	}	
-	isWord = checkWord();
-	if (isWord == false){
-		pullback();
-		printf("Tidak membentuk suatu kata dalam bahasa Inggris!\n");
+	} else {
+		isAround = checkAround(spaceIsWord);
+		if (isAround == false){
+			pullback();
+			printf("huruf-huruf yang di-entry harus bersambung dengan huruf yang sudah ada di board!\n");
+		} else {
+			isWord = checkWord();
+			if (isWord == false){
+				pullback();
+				printf("Tidak membentuk suatu kata dalam bahasa Inggris!\n");
+			}
+		}
+
 	}
 	
 	if (noSpace == true && isAround == true && isWord == true){
@@ -847,6 +878,8 @@ int check(){
 }
 
 int checkLine(){
+//mengembalikan keterangan bahwa pemain akan mengentry secara segaris kolom atau segaris baris. Bisa diketahui ketika pemain sudah menginput huruf yg kedua
+
 	bool segaris;
 	if (array_temp[i].kolom == array_temp[0].kolom){
 		segaris = true;
@@ -864,6 +897,9 @@ int checkLine(){
 }
 
 void checkNoSpace(bool *line, bool *spaceIsWord){
+//Modul untuk cek apakah ada kotak yang kosong di antara huruf-huruf yang diinput atau tidak
+//Jika diantara huruf-huruf yang diinput terdapat huruf yang telah ada sebelumnya (hasil dari giliran-giliran sebelumnya), maka spaceIsWord true
+	
 	int min = minBoard(), max = maxBoard(), x, y;		//min untuk mengetahui index array board yang paling kecil di entry
 	int m, counter, a ;		//m, a dan counter adalah sebagai iterasi
 	*spaceIsWord=false;
@@ -927,6 +963,8 @@ void checkNoSpace(bool *line, bool *spaceIsWord){
 }
 
 int checkIndex(){
+//Cek apakah index board yang akan dimasukkan sebuah huruf itu kosong atau sudah terisi
+	
 	bool available;
 	int x = array_temp[i].kolom;
 	int y = array_temp[i].baris;
@@ -942,6 +980,8 @@ int checkIndex(){
 }
 
 int checkRack(){
+//cek apakah huruf yang akan dientri pada board itu tersedia atau tidak pada rack
+	
 	int counter = 0;
 	bool available = false;	// untuk P1
 	if (p1.isTurn == true){
@@ -978,6 +1018,8 @@ int checkRack(){
 }
 
 bool checkAround(bool spaceIsWord){
+//di selain giliran pertama pemain pertama, akan cek apakah salah satu huruf yang dimasukkan bertempelan dengan salah satu huruf yang terbentuk pada giliran-giliran sebelumnya
+	
 	int min, max, m, x, y, right, left, up, down;
 	bool isAround = false;
 	min = minBoard();
@@ -1028,6 +1070,7 @@ bool checkAround(bool spaceIsWord){
 }
 
 bool checkWord(){
+//cek apakah pada suatu giliran bisa membentuk suatu kata
 	bool isWord = false, isFormedWord = false;
 	int a, b, c, d, e, totalWords = 0;
 	temp array_check[15];
@@ -1047,9 +1090,10 @@ bool checkWord(){
 				array_check[e].baris = 20;	//20 sebagai tanda bahwa di luar board
 				e++;
 			}
-			d = 0;
 			c = b;
 			if (board[a][c] != '_'){
+				//check horizontal
+				d = 0;
 				while (c < 15 && board[a][c] != '_'){
 					array_check[d].huruf =  board[a][c];
 					array_check[d].baris = a;
@@ -1058,7 +1102,7 @@ bool checkWord(){
 					c++;
 				}
 				isFormedWord = checkFormedWords(array_check, d);
-				if (isFormedWord == false){
+				if (isFormedWord == false && d > 1){
 					isWord = toDictionary(array_check);
 					if (isWord == true){
 						totalWords++;
@@ -1072,26 +1116,20 @@ bool checkWord(){
 					}
 					isWord = false;
 				}
-			}
-		}
-	}
-	
-	for (a = 0; a < 15; a++){ 			//check vertikal
-		for (b = 0; b < 15; b++){
-			e = 0;
-			while (e < 15 && array_check[e].huruf != 0){   //agar array kosong
-				array_check[e].huruf = 0;
-				array_check[e].kolom = 20;	//20 sebagai tanda bahwa di luar board
-				array_check[e].baris = 20;	//20 sebagai tanda bahwa di luar board
-				e++;
-			}
-			d = 0;
-			c = b;
-			
-			if (board[c][a] != '_'){
-				while (c < 15 && board[c][a] != '_'){
-					array_check[d].huruf =  board[c][a];
-					array_check[d].kolom = a;
+				
+				//check vertical
+				e = 0;
+				while (e < 15 && array_check[e].huruf != 0){   //agar array kosong
+					array_check[e].huruf = 0;
+					array_check[e].kolom = 20;	//20 sebagai tanda bahwa di luar board
+					array_check[e].baris = 20;	//20 sebagai tanda bahwa di luar board
+					e++;
+				}
+				c = a;
+				d = 0;
+				while (c < 15 && board[c][b] != '_'){
+					array_check[d].huruf =  board[c][b];
+					array_check[d].kolom = b;
 					array_check[d].baris = c;
 					d++;
 					c++;
@@ -1113,6 +1151,7 @@ bool checkWord(){
 			}
 		}
 	}
+	
 	if (totalWords != 0){
 		isWord = true;
 	}
@@ -1121,6 +1160,8 @@ bool checkWord(){
 }
 
 bool toDictionary(temp array_check[]){
+// membandingkan huruf-huruf yang dicek, apakah ada pada kamus atau tidak
+
 	bool exist = false;
 	int counter;
 	char word[30];
@@ -1148,6 +1189,8 @@ bool toDictionary(temp array_check[]){
 
 	
 bool checkFormedWords(temp array_check[], int b){
+// cek apakah index-index yang diperiksa adalah index-index yang pada giliran-giliran sebelumnya sudah terbentuk suatu kata
+
 	int a = 0, m, n, o, p;		//iteration
 	bool isFormedWord = false;
 	m = array_check[0].baris;
@@ -1166,6 +1209,7 @@ bool checkFormedWords(temp array_check[], int b){
 }
 
 void scoring(temp array_check[], int b){
+//memberi skor pada pemain
 	int scor_temp=0, a, point;
 	char letter_temp;
 	
@@ -1217,6 +1261,7 @@ void scoring(temp array_check[], int b){
 }
 
 void bonusLetter(int *point, temp array_check[] , int a) {
+//Jika huruf pada kata yang terbentuk menyentuh index bonus huruf, maka poin huruf tersebut akan dikali 2 atau dikali 3
 	int y,x;
 	y = array_check[a].baris;
 	x = array_check[a].kolom;
@@ -1248,6 +1293,7 @@ void bonusLetter(int *point, temp array_check[] , int a) {
 }
 
 void bonusWord(int *scor_temp, temp array_check[], int a){
+//Jika kata yang terbentuk menyentuh index bonus kata, maka poin huruf tersebut akan dikali 2 atau dikali 3
 	int y,x;
 	y = array_check[a].baris;
 	x = array_check[a].kolom;
@@ -1273,6 +1319,7 @@ void bonusWord(int *scor_temp, temp array_check[], int a){
 }
 
 void pullback(){
+//menarik semua huruf yang ada pada board pada suatu giliran dan meletakannya kembali ke rack
 	bool rackRefilled;
 	int x, y, counter = 0;
 	i = 0;
@@ -1316,6 +1363,8 @@ void pullback(){
 
 
 int minBoard(){
+//mengetahui index terkecil pada huruf-huruf yang dientri (index paling atas / index paling kiri)	
+
 	int counter = 0, min;
 	if (segaris_kolom){
 		min = array_temp[0].baris;
@@ -1338,6 +1387,7 @@ int minBoard(){
 }
 
 int maxBoard(){
+//mengetahui index terbesar pada huruf-huruf yang dientri (index paling bawah / index paling kanan)
 	int counter = 0, max;
 	if (segaris_kolom){
 		max = array_temp[0].baris;
