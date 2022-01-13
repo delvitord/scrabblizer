@@ -114,7 +114,7 @@ void assign1_LetterBlock(){
 	p1.K.letter = 'K';		p1.K.totalLetter = 1;		p1.K.point = 5;
 	p1.L.letter = 'L';		p1.L.totalLetter = 4;		p1.L.point = 1;
 	p1.M.letter = 'M';		p1.M.totalLetter = 2;		p1.M.point = 3;
-	p1.N.letter = 'N';		p1.N.totalLetter = 6;		p1.N.point = 2;
+	p1.N.letter = 'N';		p1.N.totalLetter = 6;		p1.N.point = 1;
 	p1.O.letter = 'O';		p1.O.totalLetter = 8;		p1.O.point = 1;
 	p1.P.letter = 'P';		p1.P.totalLetter = 2;		p1.P.point = 3;
 	p1.Q.letter = 'Q';		p1.Q.totalLetter = 1;		p1.Q.point = 10;
@@ -141,7 +141,7 @@ void assign1_LetterBlock(){
 	p2.K.letter = 'K';		p2.K.totalLetter = 1;		p2.K.point = 5;
 	p2.L.letter = 'L';		p2.L.totalLetter = 4;		p2.L.point = 1;
 	p2.M.letter = 'M';		p2.M.totalLetter = 2;		p2.M.point = 3;
-	p2.N.letter = 'N';		p2.N.totalLetter = 6;		p2.N.point = 2;
+	p2.N.letter = 'N';		p2.N.totalLetter = 6;		p2.N.point = 1;
 	p2.O.letter = 'O';		p2.O.totalLetter = 8;		p2.O.point = 1;
 	p2.P.letter = 'P';		p2.P.totalLetter = 2;		p2.P.point = 3;
 	p2.Q.letter = 'Q';		p2.Q.totalLetter = 1;		p2.Q.point = 10;
@@ -195,8 +195,10 @@ int main(){
 	assign1_Board();
 	p1.totalTurn = 1;
 	p2.totalTurn = 1;
+
 	
 	int menu;
+	char cukup;
 	do{
 		printf("Main Menu\n");
 		printf("1: Play\n");
@@ -213,12 +215,15 @@ int main(){
 					entryName();
 					startGame();
 					if (p1.skor == p2.skor) {
-						("permainan seri\n");
+						printf("permainan seri\n");
 					} else if (p1.skor > p2.skor){
 						printf("%s memenangkan pertandingan dengan skor %d\n", p1.name, p1.skor);
 					} else {
 						printf("%s memenangkan pertandingan dengan skor %d\n", p2.name, p2.skor);
 					}
+					printf("cukup? (entry huruf apa saja)");
+					scanf(" %c", &cukup);
+					system("cls");
 					
 			break;
 			case 2: viewHelp();
@@ -670,10 +675,10 @@ void entryLetter(){
 
 		assign1_array_temp(); 		//agar data pada turn sebelumnya tidak terbawa;
 		
-		printf("Apakah anda ingin lewati giliran ini (entri selain 'N' jika iya)? "); // mengetahui apakah akan lanjut entry huruf atau tidak
+		printf("Apakah anda ingin lewati giliran ini (entri 'Y' jika lewati)? "); // mengetahui apakah akan lanjut entry huruf atau tidak
 		scanf(" %c", &lewati);
 		
-		if (lewati != 'N'){
+		if (lewati == 'Y'){
 			if(p1.isTurn==true){
 				p1.turn_noPoint++;
 			} else{
@@ -683,27 +688,28 @@ void entryLetter(){
 		} 
 		entryLetter_first();
 		
-		printf("Apakah anda ingin mengentry huruf lagi (entri selain 'N' jika iya)? "); // mengetahui apakah akan lanjut entry huruf atau tidak
+		printf("Apakah anda ingin mengentry huruf lagi (entri 'Y' jika ingin lanjut memasukkan huruf)? "); // mengetahui apakah akan lanjut entry huruf atau tidak
 		scanf(" %c", &stillEntry);
-		if (stillEntry != 'N') {
+		if (stillEntry == 'Y') {
 			entryLetter_second();
 			entryLetter_continue(&stillEntry);
 		}
 		
 		if (stillEntry == 'N'){
-			printf("Apakah anda ingin menarik semua huruf (entri selain 'N' jika iya)? ");
+			printf("Apakah anda ingin menarik semua huruf (entri 'Y' jika ingin tarik huruf)? ");
 			scanf(" %c", &cancel);
-			if (cancel != 'N'){
+			if (cancel == 'Y'){
 				pullback();
 				goto first;
 			}
 		}
 		check_valid = check();
 	} while (check_valid == false);
+	
 	if(p1.isTurn==true){
-		p1.turn_noPoint++;
+		p1.totalTurn++;
 	} else{
-		p2.turn_noPoint++;
+		p2.totalTurn++;
 	}
 	
 	end:	;
@@ -774,9 +780,9 @@ void entryLetter_continue(char *stillEntry){
 	int x, y;
 	if (segaris_kolom){
 		do{
-			printf("Apakah anda ingin mengentry huruf lagi (entri selain 'N' jika iya)? ");
+			printf("Apakah anda ingin mengentry huruf lagi (entri 'Y' jika ingin lanjut memasukkan huruf)? ");
 			scanf(" %c", &still);
-			if (still != 'N') {	
+			if (still == 'Y') {	
 				do {
 					do{
 						printf("input ke-%d: baris huruf (eg: 8 A || kolom sudah terisi oleh %d):", i+1, array_temp[0].kolom);
@@ -790,12 +796,12 @@ void entryLetter_continue(char *stillEntry){
 				printBoard();
 			}
 			i++;
-		} while (still != 'N' && i < 7);
+		} while (still == 'Y' && i < 7);
 	} else {
 		do{
-			printf("Apakah anda ingin mengentry huruf lagi (entri selain 'N' jika iya)? ");
+			printf("Apakah anda ingin mengentry huruf lagi (entri 'Y' jika ingin lanjut memasukkan huruf)? ");
 			scanf(" %c", &still);
-			if (still != 'N') {
+			if (still == 'Y') {
 				do {
 					do{
 						printf("input ke-%d: kolom huruf (eg: 8 A || baris sudah terisi oleh %d):", i+1, array_temp[0].baris);
@@ -809,7 +815,7 @@ void entryLetter_continue(char *stillEntry){
 				printBoard();
 			}
 			i++;
-		} while (still != 'N' && i < 7);
+		} while (still == 'Y' && i < 7);
 	}
 	
 	*stillEntry = still;
@@ -976,7 +982,7 @@ bool checkAround(bool spaceIsWord){
 	bool isAround = false;
 	min = minBoard();
 	max = maxBoard();
-	if (p1.isTurn == true){
+	if (p1.totalTurn == 1){
 		isAround = true;
 	} else {
 		if (segaris_kolom){
